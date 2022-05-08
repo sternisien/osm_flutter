@@ -12,17 +12,21 @@ class FetchDataService {
   }
 
   Future<LatLng?> getCoordinatesFromSearchLocation(String value) async {
+    double lat = 0.0;
+    double lon = 0.0;
+    if (value.isEmpty) {
+      return LatLng(lat, lon);
+    }
     String baseUrl = "nominatim.openstreetmap.org";
     String path = "/search";
     // Await the http get response, then decode the json-formatted response.
-    double lat = 0.0;
-    double lon = 0.0;
+
     var response = await http.get(
       Uri.https(
         baseUrl,
         path,
         {
-          'q': '$value',
+          'q': value,
           'format': 'json',
           'polygon_geojson': '1',
           'addressdetails': '1'

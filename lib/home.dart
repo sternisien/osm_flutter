@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   LatLng locationValue = LatLng(47.864104, -3.8839702);
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
             child: FlutterMap(
               options: MapOptions(
                 center: locationValue,
-                zoom: 1,
+                zoom: 10,
               ),
               layers: [
                 TileLayerOptions(
@@ -83,6 +84,43 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          Expanded(
+            flex: 3,
+            child: TextButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  builder: (BuildContext context) {
+                    return Container(
+                      height: height / 1.5,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.0),
+                        ),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const Text('Modal BottomSheet'),
+                            ElevatedButton(
+                              child: const Text('Close BottomSheet'),
+                              onPressed: () => Navigator.pop(context),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Text("More Informations"),
+            ),
+          )
         ],
       ),
     );
